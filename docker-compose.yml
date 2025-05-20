@@ -1,0 +1,48 @@
+# Docker Compose file to set up all of the docker instances
+#
+# @author khanhvy1703
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_db
+    restart: always
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${USERS_DB}
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./db-scripts/setup.sql:/docker-entrypoint-initdb.d/1_setup.sql
+      - ./db-scripts/users.sql:/docker-entrypoint-initdb.d/2_users.sql
+      - ./db-scripts/movies.sql:/docker-entrypoint-initdb.d/3_movies.sql
+    networks:
+      - backend
+
+  app:
+    build: ./back-end
+    container_name: backend_app
+    restart: always
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mysql
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      USERS_DB: ${USERS_DB}
+      MOVIES_DB: ${MOVIES_DB}
+    networks:
+      - backend
+
+volumes:
+  mysql_data:
+
+networks:
+  backend:
+

@@ -2,19 +2,21 @@ use movies;
 
 drop table if exists movies;
 create table movies (
-  movie_id int primary key,
+  movie_id int primary key auto_increment,
   title varchar(1000) not null,
   original_title varchar(1000),
-  release_date date,
-  rating float,
   description text,
-  trailer_url varchar(500),
-  image_url varchar(500),
+  release_date date,
+  homepage_url varchar(5000),
+  trailer_url varchar(5000),
+  image_url varchar(5000),
   overall_rating float default 0,
   total_ratings int default 0,
+  total_votes int default 0,
   duration int, 
   revenue bigint,
   budget bigint,
+  adult bool,
   created_at timestamp default current_timestamp
 );
 

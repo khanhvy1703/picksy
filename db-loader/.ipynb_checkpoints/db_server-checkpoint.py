@@ -17,7 +17,6 @@ MYSQL_MOVIES_DB = os.getenv("MYSQL_MOVIES_DB")
 MYSQL_COUNTRIES_DB = os.getenv("MYSQL_COUNTRIES_DB")
 MYSQL_LANGUAGES_DB = os.getenv("MYSQL_LANGUAGES_DB")
 MYSQL_GENRES_DB = os.getenv("MYSQL_GENRES_DB")
-MYSQL_COMPANIES_DB = os.getenv("MYSQL_COMPANIES_DB")
 
 #--------------------------------- MAIN DATABASE ---------------------------------#
 # USERS database
@@ -40,11 +39,6 @@ countries_connection = countries_engine.connect()
 LANGUAGES_DATABASE_URL = f"mysql+mysqlconnector://{MYSQL_USER}:{MYSQL_PASSWORD}@{MYSQL_HOST}:{MYSQL_PORT}/{MYSQL_LANGUAGES_DB}"
 languages_engine = create_engine(LANGUAGES_DATABASE_URL, echo=True)
 languages_connection = languages_engine.connect()
-
-# COMPANIES database
-COMPANIES_DATABASE_URL = f"mysql+mysqlconnector://{MYSQL_USER}:{MYSQL_PASSWORD}@{MYSQL_HOST}:{MYSQL_PORT}/{MYSQL_COMPANIES_DB}"
-companies_engine = create_engine(COMPANIES_DATABASE_URL, echo=True)
-companies_connection = companies_engine.connect()
 
 # GENRES database
 GENRES_DATABASE_URL = f"mysql+mysqlconnector://{MYSQL_USER}:{MYSQL_PASSWORD}@{MYSQL_HOST}:{MYSQL_PORT}/{MYSQL_GENRES_DB}"

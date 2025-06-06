@@ -45,12 +45,10 @@ countries = [
 ]
 
 def insert_countries(countries: list):
-    id = 1
-    query = text("INSERT INTO country (country_id, name) VALUES (:country_id, :name) ON DUPLICATE KEY UPDATE name = :name")
+    query = text("INSERT INTO country (name) VALUES (:name)")
     with countries_engine.begin() as connection:
         for country in countries:
-            connection.execute(query, {"country_id": id, "name": country})
-            id+=1
+            connection.execute(query, {"name": country})
 
 # run: "python -m country" in the same directory
 if __name__ == "__main__":

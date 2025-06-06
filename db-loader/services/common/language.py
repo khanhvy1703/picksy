@@ -54,12 +54,10 @@ languages = [
 ]
 
 def insert_languages(languages: list):
-    id = 1
-    query = text("INSERT INTO language (language_id, name) VALUES (:language_id, :name) ON DUPLICATE KEY UPDATE name = :name")
+    query = text("INSERT INTO language (name) VALUES (:name)")
     with languages_engine.begin() as connection:
         for language in languages:
-            connection.execute(query, {"language_id": id, "name": language})
-            id+=1
+            connection.execute(query, {"name": language})
             
 if __name__ == "__main__":
     try:

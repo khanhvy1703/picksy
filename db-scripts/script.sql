@@ -1,13 +1,8 @@
-use genres;
-select * from genre;
-
-use countries;
-select * from country;
-
-use languages;
-select * from language;
-
 use movies;
 show tables;
-alter table movies
-modify homepage_url varchar(5000);
+
+select count(*) from movie;
+select movie_id, title from movie where title like '%Inception' order by movie_id asc;
+select count(*) from movie_genre;
+select * from movie_genre;
+

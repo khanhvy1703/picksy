@@ -1,11 +1,15 @@
-use movies;
+SELECT table_schema AS "Database",
+       ROUND(SUM(data_length + index_length) / 1024 / 1024, 2) AS "Size (MB)"
+FROM information_schema.tables
+GROUP BY table_schema;
+
+use movie_tvshow;
 show tables;
 
-select count(*) from movie;
-select movie_id, title from movie where title like '%Inception' order by movie_id asc;
-select count(*) from movie_genre;
-select * from movie_genre order by movie_id desc;
+select * from companies;
+select * from countries;
+select * from genres;
+select * from languages;
+select * from title;
 
-select count(*) from movie_language;
-select * from movie_language order by movie_id desc;
 

@@ -13,12 +13,10 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_DATABASE: ${USERS_DB}
+      MYSQL_DATABASE: ${MYSQL_MOVIE_TVSHOW_DB}
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./db-scripts/setup.sql:/docker-entrypoint-initdb.d/1_setup.sql
-      - ./db-scripts/users.sql:/docker-entrypoint-initdb.d/2_users.sql
-      - ./db-scripts/movies.sql:/docker-entrypoint-initdb.d/3_movies.sql
+      - ./db-scripts/setup.sql:/docker-entrypoint-initdb.d/1_movie_tvshow.sql
     networks:
       - backend
 
@@ -35,8 +33,7 @@ services:
       MYSQL_PORT: 3306
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      USERS_DB: ${USERS_DB}
-      MOVIES_DB: ${MOVIES_DB}
+      MYSQL_MOVIE_TVSHOW_DB: ${MYSQL_MOVIE_TVSHOW_DB}
     networks:
       - backend
 

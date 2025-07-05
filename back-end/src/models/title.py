@@ -1,5 +1,7 @@
 from sqlalchemy import Column, Integer, String, Text, Date, Float, Boolean, Enum, BigInteger, TIMESTAMP
+from sqlalchemy.orm import relationship
 from src.mysql import movie_tvshow_base
+from src.models.relationships import title_language
 import enum
 
 class TitleTypeEnum(str, enum.Enum):
@@ -26,3 +28,9 @@ class Title(movie_tvshow_base):
     budget = Column(BigInteger)
     adult = Column(Boolean)
     created_at = Column(TIMESTAMP)
+
+    languages = relationship(
+        "Language",
+        secondary=title_language,
+        back_populates="titles"
+    )

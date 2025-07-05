@@ -15,5 +15,5 @@ select * from title;
 select count(*) from title;
 select count(*) from companies;
 
-
+select * from title_language;
 

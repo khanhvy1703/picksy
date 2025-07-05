@@ -12,4 +12,8 @@ select * from genres;
 select * from languages;
 select * from title;
 
+select count(*) from title;
+select count(*) from companies;
+
+
 

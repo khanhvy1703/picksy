@@ -107,5 +107,53 @@ for _, row in movies_df.iterrows():
         "type": 'movie' 
     })
 print("Movies loaded successfully into the database.")
-    
+
+movies_db_df = pd.read_sql('SELECT title_id, title FROM title', con=db_connection)
+languages_db_df = pd.read_sql('SELECT id, iso_code FROM languages', con=db_connection)
+genre_db_df = pd.read_sql('SELECT id, name FROM genres', con=db_connection)
+country_db_df = pd.read_sql('SELECT id, name FROM countries', con=db_connection)
+company_db_df = pd.read_sql('SELECT id, name FROM companies', con=db_connection)
+
+df['genres'] = df['genres'].str.split(', ')
+df = df.explode('genres')
+df['genres'] = df['genres'].str.strip()
+
+df['production_companies'] = df['production_companies'].str.split(', ')
+df = df.explode('production_companies')
+df['production_companies'] = df['production_companies'].str.strip()
+
+df['production_countries'] = df['production_countries'].str.split(', ')
+df = df.explode('production_countries')
+df['production_countries'] = df['production_countries'].str.strip()
+
+df = df.merge(movies_db_df, on='title', how='inner')
+df = df.merge(languages_db_df, left_on='original_language', right_on='iso_code', how='inner')
+df = df.rename(columns={'id': 'language_id'})
+
+df = df.merge(genre_db_df, left_on='genres', right_on='name', how='inner')
+df = df.rename(columns={'id': 'genre_id'})
+
+df = df.merge(company_db_df, left_on='production_companies', right_on='name', how='inner')
+df = df.rename(columns={'id': 'company_id'})
+
+df = df.merge(country_db_df, left_on='production_countries', right_on='name', how='inner')
+df = df.rename(columns={'id': 'country_id'})
+
+movie_language_df = df[['title_id', 'language_id']].drop_duplicates()
+movie_genre_df = df[['title_id', 'genre_id']].drop_duplicates()
+movie_company_df = df[['title_id', 'company_id']].drop_duplicates()
+movie_country_df = df[['title_id', 'country_id']].drop_duplicates()
+
+print(movie_company_df.shape)
+print(movie_language_df.shape)
+print(movie_genre_df.shape)
+print(movie_country_df.shape)
+
+# Insert into relationship tables
+movie_language_df.to_sql('title_language', con=db_connection, if_exists='append', index=False)
+movie_genre_df.to_sql('title_genre', con=db_connection, if_exists='append', index=False)
+movie_company_df.to_sql('title_company', con=db_connection, if_exists='append', index=False)
+movie_country_df.to_sql('title_country', con=db_connection, if_exists='append', index=False)
+
 db_connection.commit()
+
